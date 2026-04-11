@@ -2,7 +2,11 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Reloj</title>
+    <title>Reloj TV</title>
+
+    <!-- Fuente compatible -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
+
     <style>
         body {
             margin: 0;
@@ -14,17 +18,20 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
+            overflow: hidden;
         }
 
         #hora {
-            font-size: 300px;
+            font-size: 18vw; /* adaptable al tamaño de pantalla */
             font-weight: bold;
+            text-align: center;
         }
 
         #lema {
             margin-top: 10px;
-            font-size: 70px;
+            font-size: 4vw;
             opacity: 0.8;
+            text-align: center;
         }
     </style>
 </head>
@@ -36,11 +43,17 @@
     <script>
         function actualizarHora() {
             const ahora = new Date();
-            let horas = ahora.getHours().toString().padStart(2, '0');
-            let minutos = ahora.getMinutes().toString().padStart(2, '0');
-            let segundos = ahora.getSeconds().toString().padStart(2, '0');
 
-            document.getElementById("hora").textContent = `${horas}:${minutos}:${segundos}`;
+            let horas = ahora.getHours();
+            let minutos = ahora.getMinutes();
+            let segundos = ahora.getSeconds();
+
+            // Formato 2 dígitos
+            if (horas < 10) horas = "0" + horas;
+            if (minutos < 10) minutos = "0" + minutos;
+            if (segundos < 10) segundos = "0" + segundos;
+
+            document.getElementById("hora").innerText = horas + ":" + minutos + ":" + segundos;
         }
 
         setInterval(actualizarHora, 1000);
