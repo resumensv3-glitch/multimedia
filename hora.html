@@ -1,64 +1,126 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>Reloj TV</title>
+<meta charset="UTF-8">
+<title>Reloj estilo pantalla</title>
 
-    <!-- Fuente compatible -->
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
 
-    <style>
-        body {
-            margin: 0;
-            background: black;
-            color: white;
-            font-family: 'Montserrat', sans-serif;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            overflow: hidden;
-        }
+<style>
+body{
+    margin:0;
+    background:#e5e5e5;
+    font-family:'Montserrat', sans-serif;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+}
 
-        #hora {
-            font-size: 20vw; /* adaptable al tamaño de pantalla */
-            font-weight: bold;
-            text-align: center;
-        }
+/* Texto arriba */
+.titulo{
+    font-size:65px;
+    margin-bottom:40px;
+}
 
-        #lema {
-            margin-top: 10px;
-            font-size: 4vw;
-            opacity: 0.8;
-            text-align: center;
-        }
-    </style>
+/* Contenedor del reloj */
+.reloj{
+    display:flex;
+    align-items:center;
+    gap:15px;
+}
+
+/* Cajas negras */
+.caja{
+    background:black;
+    color:white;
+    font-size:100px;
+    padding:25px 35px;
+    text-align:center;
+    min-width:110px;
+}
+
+/* PM */
+.pm{
+    background:black;
+    color:white;
+    font-size:35px;
+    padding:15px;
+    border-radius:12px;
+}
+
+/* Texto abajo */
+.sub{
+    margin-top:40px;
+    font-size:45px;
+}
+
+.sub2{
+    margin-top:10px;
+    font-size:45px;
+}
+</style>
 </head>
+
 <body>
 
-    <div id="hora"></div>
-    <div id="lema">CULTO DE SECTOR</div>
+<div class="titulo">COMENZAMOS EN BREVE</div>
 
-    <script>
-        function actualizarHora() {
-            const ahora = new Date();
+<div class="reloj">
+    <div class="caja" id="hora">00</div>
+    <div class="caja" id="min">00</div>
+    <div class="caja" id="seg">00</div>
+    <div class="pm" id="ampm">AM</div>
+</div>
 
-            let horas = ahora.getHours();
-            let minutos = ahora.getMinutes();
-            let segundos = ahora.getSeconds();
+<div class="sub">¿ESTÁS PREPARADO?</div>
+<div class="sub2">PANEL FORUM</div>
 
-            // Formato 2 dígitos
-            if (horas < 10) horas = "0" + horas;
-            if (minutos < 10) minutos = "0" + minutos;
-            if (segundos < 10) segundos = "0" + segundos;
 
-            document.getElementById("hora").innerText = horas + ":" + minutos + ":" + segundos;
-        }
+<script>
+function getObjetivoManana(){
+    const ahora = new Date();
+    return new Date(
+        ahora.getFullYear(),
+        ahora.getMonth(),
+        ahora.getDate() + 1,
+        16,
+        30,
+        0,
+        0
+    );s
+}
 
-        setInterval(actualizarHora, 1000);
-        actualizarHora();
-    </script>
+function actualizarCuenta(){
+    const ahora = new Date();
+    const objetivo = getObjetivoManana();
+    let diferencia = objetivo - ahora;
+
+    if (diferencia <= 0) {
+        document.getElementById('hora').textContent = '00';
+        document.getElementById('min').textContent = '00';
+        document.getElementById('seg').textContent = '00';
+        document.getElementById('ampm').textContent = 'PM';
+        return;
+    }
+
+    const horas = Math.floor(diferencia / (1000 * 60 * 60));
+    diferencia -= horas * 1000 * 60 * 60;
+    const minutos = Math.floor(diferencia / (1000 * 60));
+    diferencia -= minutos * 1000 * 60;
+    const segundos = Math.floor(diferencia / 1000);
+
+    document.getElementById('hora').textContent = horas < 10 ? '0' + horas : horas;
+    document.getElementById('min').textContent = minutos < 10 ? '0' + minutos : minutos;
+    document.getElementById('seg').textContent = segundos < 10 ? '0' + segundos : segundos;
+    document.getElementById('ampm').textContent = 'PM';
+}
+
+setInterval(actualizarCuenta, 1000);
+actualizarCuenta();
+</script>
 
 </body>
 </html>
